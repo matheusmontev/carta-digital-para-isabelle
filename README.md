@@ -1,1 +1,21 @@
-Uma carta de amor digital personalizada com animações, música e mensagens especiais. Criada com HTML, CSS e JavaScript para expressar sentimentos de uma forma única e criativa.💌
+# Carta Digital
+
+Uma carta digital interativa criada com HTML, CSS e JavaScript.
+
+## Recursos
+
+- Animações suaves de corações
+- Transições elegantes entre telas
+- Reprodução de música via Spotify
+- Contador personalizado
+- Design responsivo
+- Efeitos visuais personalizados
+
+## Tecnologias Utilizadas
+
+- HTML5
+- CSS3 (Animações e Transições)
+- JavaScript
+- Google Fonts
+- Spotify Embed API
+
