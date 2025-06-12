@@ -1,14 +1,33 @@
-/**
- * Configurações iniciais da animação de corações
- */
+// Data inicial do relacionamento
+const startDate = new Date('2024-08-13T19:16:00');
+
+// Configurações dos corações animados
 let heartCount = 0;
 const MAX_HEARTS = 30;
 let heartInterval;
 
-/**
- * Cria um coração animado que cai na tela principal
- * O coração tem tamanho, posição e duração aleatórios
- */
+// Função para atualizar o contador de tempo
+function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    // Cálculo das unidades de tempo
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+    const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30.44));
+    const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    // Montagem do texto do timer
+    let timerText = 'Nos conhecemos há: ';
+    if (years > 0) timerText += `${years} anos, `;
+    timerText += `${months} meses, ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos`;
+
+    document.getElementById('timer').textContent = timerText;
+}
+
+// Função para criar coração animado
 function createHeart() {
     if (heartCount >= MAX_HEARTS) return;
 
@@ -25,17 +44,14 @@ function createHeart() {
     document.body.appendChild(heart);
     heartCount++;
 
-    // Remove o coração após a animação terminar
+    // Remover coração após animação
     heart.addEventListener('animationend', () => {
         heart.remove();
         heartCount--;
     });
 }
 
-/**
- * Cria um coração que sobe na tela inicial e na transição
- * O coração tem tamanho, posição e opacidade aleatórios
- */
+// Função para criar coração subindo na tela inicial
 function createRisingHeart() {
     const heart = document.createElement('div');
     heart.className = 'rising-heart';
@@ -51,53 +67,45 @@ function createRisingHeart() {
     heart.addEventListener('animationend', () => heart.remove());
 }
 
-/**
- * Mostra o conteúdo principal da carta
- * Inclui a música, a mensagem e inicia a animação de corações
- */
+// Função para mostrar o conteúdo principal
 function showMainContent() {
     const transitionScreen = document.querySelector('.transition-screen');
     const mainContent = document.querySelector('.main-content');
     
-    // Esconde a tela de transição e mostra o conteúdo principal
     transitionScreen.classList.remove('visible');
     mainContent.classList.add('visible');
     
-    // Configura e inicia o player do Spotify
+    // Configurar player do Spotify
     const player = document.getElementById('spotify-player');
     player.style.display = 'block';
     player.src = player.src;
     
-    // Mostra a mensagem com um pequeno delay para efeito visual
+    // Mostrar mensagem com delay
     const messageContainer = document.getElementById('message-container');
     setTimeout(() => messageContainer.classList.add('visible'), 1000);
     
-    // Inicia a animação contínua de corações
+    // Iniciar animação de corações
     heartInterval = setInterval(createHeart, 300);
 }
 
-// Inicia as animações da tela inicial
+// Inicializar timer e animações iniciais
+const timerInterval = setInterval(updateTimer, 1000);
+updateTimer();
 createRisingHeart();
 const initialHeartsInterval = setInterval(createRisingHeart, 600);
 
-/**
- * Manipulador de evento para o clique no botão inicial
- * Inicia a sequência de animações e transições
- */
+// Evento de clique no botão principal
 document.getElementById('main-button').addEventListener('click', function() {
-    // Para a animação inicial de corações
     clearInterval(initialHeartsInterval);
-    
-    // Inicia a transição de telas
     document.querySelector('.initial-screen').classList.add('fade-out');
     document.querySelector('.transition-screen').classList.add('visible');
     
-    // Cria o container para os corações da transição
+    // Criar corações na tela de transição
     const transitionHearts = document.createElement('div');
     transitionHearts.className = 'transition-hearts';
     document.querySelector('.transition-screen').appendChild(transitionHearts);
     
-    // Cria múltiplos corações com delays para efeito visual
+    // Criar múltiplos corações com delays
     for (let i = 0; i < 20; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
@@ -111,6 +119,6 @@ document.getElementById('main-button').addEventListener('click', function() {
         }, i * 300);
     }
 
-    // Mostra o conteúdo principal após 6 segundos
+    // Mostrar conteúdo principal após delay
     setTimeout(showMainContent, 6000);
 });
