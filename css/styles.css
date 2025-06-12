@@ -94,32 +94,61 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     background: transparent;
-    border: 2px solid #87CEEB;
-    color: white;
-    padding: 20px 40px;
-    border-radius: 30px;
-    font-size: 20px;
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 15px;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    justify-content: center;
+    transition: all 0.5s ease;
+    padding: 0;
+    width: 180px;
+    height: 180px;
     backdrop-filter: blur(5px);
 }
 
-#main-button:hover {
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 0 25px rgba(135, 206, 235, 0.5);
-    border-color: #fff;
+#main-button:hover .envelope {
+    transform: scale(1.15);
 }
 
-/* Estilo do ícone de coração */
-.heart-icon {
+/* Estilo do envelope */
+.envelope {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+}
+
+.envelope-body {
+    font-size: 100px;
+    opacity: 0.95;
+}
+
+/* Estilo do coração no topo */
+.heart-top {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: red;
-    font-size: 24px;
-    font-family: 'Segoe UI Emoji', sans-serif;
+    font-size: 50px;
+    animation: heartPulse 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+    z-index: 2;
+}
+
+@keyframes heartPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.3))
+                drop-shadow(0 0 25px rgba(255, 105, 180, 0.2));
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        filter: drop-shadow(0 0 25px rgba(255, 0, 0, 0.5))
+                drop-shadow(0 0 35px rgba(255, 105, 180, 0.4));
+    }
 }
 
 /* Estilos do container de imagem */
@@ -128,6 +157,10 @@ body {
     max-width: 800px;
     margin: 20px auto;
     text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .single-image {
@@ -135,24 +168,33 @@ body {
     max-height: 85vh;
     width: auto;
     height: auto;
-    border-radius: 10px;
+    border-radius: 15px;
     animation: imageGlow 3s ease-in-out infinite;
     box-shadow: 
-        0 0 25px rgba(255, 0, 0, 0.3),
-        0 0 45px rgba(255, 105, 180, 0.2),
+        0 0 25px rgba(0, 123, 255, 0.3),
+        0 0 45px rgba(65, 105, 225, 0.2),
         0 0 65px rgba(135, 206, 235, 0.1);
-    border: 2px solid rgba(255, 105, 180, 0.6);
-    display: inline-block;
+    border: 2px solid rgba(0, 123, 255, 0.6);
     transition: all 0.3s ease;
+    opacity: 1;
 }
 
-/* Estilo do timer */
-#timer {
-    color: white;
-    font-size: 18px;
-    text-align: center;
-    margin: 30px 0;
-    font-weight: 300;
+.single-image:hover {
+    transform: scale(1.02);
+    box-shadow: 
+        0 0 35px rgba(0, 123, 255, 0.4),
+        0 0 55px rgba(65, 105, 225, 0.3),
+        0 0 75px rgba(135, 206, 235, 0.2);
+}
+
+/* Imagem principal animação de brilho */
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px rgba(135, 206, 235, 0.2);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(135, 206, 235, 0.4);
+    }
 }
 
 /* Estilos do container de mensagem */
@@ -175,6 +217,18 @@ body {
 .message-container p {
     margin-bottom: 1.5em;
     line-height: 1.8;
+}
+
+.signature {
+    font-family: 'Ephesis', cursive;
+    font-size: 2.5em;
+    color: #87CEEB;
+    text-align: right;
+    margin-top: 40px;
+    margin-right: 20px;
+    text-shadow: 0 0 10px rgba(135, 206, 235, 0.4);
+    transform: rotate(-5deg);
+    display: block;
 }
 
 .message-container.visible {
@@ -344,50 +398,127 @@ body {
 }
 
 /* Responsividade */
+@media (max-width: 1200px) {
+    .message-container { 
+        max-width: 90%;
+        font-size: 1em;
+    }
+    #spotify-player {
+        max-width: 90%;
+    }
+    .single-image {
+        max-width: 90%;
+        max-height: 70vh;
+    }
+}
+
 @media (max-width: 768px) {
-    .main-content { padding: 15px; }
+    .main-content { 
+        padding: 15px;
+    }
     .message-container {
-        font-size: 0.9em;
+        font-size: 0.95em;
         padding: 0 max(20px, 5%);
         margin: 25px auto;
+    }
+    .signature {
+        font-size: 2.2em;
+        margin-right: 15px;
     }
     #spotify-player {
         padding: 0 20px;
         margin: 30px auto;
     }
-    .single-image { max-height: 65vh; }
-    #timer {
-        font-size: 16px;
-        padding: 0 10px;
+    .single-image { 
+        max-height: 65vh;
     }
     #main-button {
-        padding: 12px 25px;
-        font-size: 16px;
+        width: 150px;
+        height: 150px;
+    }
+    .envelope-body {
+        font-size: 80px;
+    }
+    .heart-top {
+        font-size: 40px;
+    }
+    .transition-content p:first-child {
+        font-size: 4em;
     }
 }
 
 @media (max-width: 480px) {
-    .main-content { padding: 10px; }
+    .main-content { 
+        padding: 10px; 
+    }
     .message-container {
-        font-size: 0.85em;
+        font-size: 0.9em;
         line-height: 1.6;
         padding: 0 max(15px, 4%);
         margin: 20px auto;
     }
-    #timer {
-        font-size: 14px;
-        padding: 0 15px;
-        margin: 20px 0;
+    .signature {
+        font-size: 2em;
+        margin-right: 10px;
+        margin-top: 30px;
     }
-    .single-image { max-height: 60vh; }
+    .single-image { 
+        max-height: 60vh;
+        max-width: 95%;
+    }
+    #main-button {
+        width: 120px;
+        height: 120px;
+    }
+    .envelope-body {
+        font-size: 60px;
+    }
+    .heart-top {
+        font-size: 30px;
+    }
+    .transition-content p:first-child {
+        font-size: 3em;
+    }
+    .transition-content p:last-child {
+        font-size: clamp(1.2em, 3vw, 2em);
+    }
 }
 
-@media (min-width: 1200px) {
-    .message-container { max-width: 800px; }
+@media (max-width: 360px) {
+    .main-content {
+        padding: 8px;
+    }
+    .message-container {
+        font-size: 0.85em;
+        line-height: 1.5;
+    }
+    #main-button {
+        width: 100px;
+        height: 100px;
+    }
+    .envelope-body {
+        font-size: 50px;
+    }
+    .heart-top {
+        font-size: 25px;
+    }
 }
 
 @media (orientation: landscape) and (max-height: 600px) {
-    .single-image { max-height: 55vh; }
-    .message-container { margin: 15px auto; }
-    #timer { margin: 15px 0; }
+    .single-image { 
+        max-height: 55vh;
+    }
+    .message-container { 
+        margin: 15px auto;
+    }
+    .main-content {
+        padding: 10px 20px;
+    }
+    #spotify-player {
+        margin: 20px auto;
+    }
+    #main-button {
+        width: 120px;
+        height: 120px;
+    }
 }
